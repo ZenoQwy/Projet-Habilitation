@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}
+	Votre profil
+{% endblock %}
+
+{% block javascripts %}
+	{{parent()}}
+	<script src="{{asset('js/deletemodal.js')}}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+
+{% block body %}
+	<style>
+		.page-content {
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh; /* 100% de la hauteur de la fenêtre visible */
+		}
+	</style>
+
+	<div class="page-content bg-dark">
+		<div class="py-5 row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr class="fw-bold text-primary">
+								<th scope="col">Nom</th>
+								<th scope="col">Prénom</th>
+								<th scope="col">Mail</th>
+								<th scope="col">Role</th>
+							</tr>
+						</thead>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for users in users %}
+					<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
+						<td>{{ users.nom | capitalize }}</td>
+						<td>{{ users.prenom | capitalize }}</td>
+						<td>{{ users.email  }}</td>
+						<td>
+							{% for role in users.roles %}
+								{% if role == 'ROLE_ADMIN' %}
+                                    Administrateur
+                                {% endif %}
+                                {% if role == 'ROLE_REDACTEUR' %}
+                                    Rédacteur
+                                {% endif %}
+                                {% if role == 'ROLE_USER' %}
+                                    Utilisateur
+                                {% endif %}
+							{% endfor %}
+						</td>
+						<td>
+							<a href="{{path('adminmodifinfos', {'id': users.id})}}" class="nav-link text-decoration-none float-end">🖋</a>
+						</td>
+						<td>
+							<a class="btn1 text-decoration-none deletee" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdro" data-numuser="{{ users.id }}" data-emailuser="{{ users.email }}">
+								<div class=" text-center">🗑️</div>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div></div></div><!--Modal--><div class="modal fade" id="staticBackdro" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"><div class="modal-dialog">
+<div class="modal-content">
+	<div class="modal-header">
+		<h1 class="fs-4 modal-title" id="staticBackdropLabel">Suppression de l'utilisateur</h1>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+	<div class="modal-body">
+		<p class="fs-5">Etes-vous sûr(e) de vouloir supprimer l'utilisateur suivant :
+			<span id="emailUser"></span>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a type="button" class="btn btn-success rounded-4 text-light" data-bs-dismiss="modal">Annuler</a>
+		<a href="" id="lien" class="btn btn-danger rounded-4 text-light ">Confirmer</a>
+	</div>
+</div></div></div><!--Fin Modal-->{% endblock %}

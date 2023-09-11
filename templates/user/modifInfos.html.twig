@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}
+	Votre profil
+{% endblock %}
+
+{% block body %}
+    <style> .page-content {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* 100% de la hauteur de la fenêtre visible */
+    }
+    </style>
+    
+    <div class="page-content bg-dark">
+        {{form(form)}}
+    </div>
+{% endblock %}
